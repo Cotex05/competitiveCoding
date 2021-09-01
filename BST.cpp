@@ -41,11 +41,47 @@ class BST {
         }
     }
 
-    void printHelper(Node<T> *root) {
+    void printInorderHelper(Node<T> *root) {
         if (!root) return;
-        printHelper(root->left);
+        printInorderHelper(root->left);
         cout<<root->value<<' ';
-        printHelper(root->right);
+        printInorderHelper(root->right);
+    }
+
+    void printPreorderHelper(Node<T> *root) {
+        if (!root) return;
+        cout<<root->value<<' ';
+        printPreorderHelper(root->left);
+        printPreorderHelper(root->right);
+    }
+    
+    void printPostorderHelper(Node<T> *root) {
+        if (!root) return;
+        printPostorderHelper(root->left);
+        printPostorderHelper(root->right);
+        cout<<root->value<<' ';
+    }
+    
+    void printLevelorderHelper(Node<T> *root)
+    {
+        T h = heightHelper(root);
+        T i;
+        for (i = 1; i <= h; i++)
+            printCurrentLevel(root, i);
+    }
+     
+    /* Print nodes at a current level */
+    void printCurrentLevel(Node<T> *root, T level)
+    {
+        if (root == NULL)
+            return;
+        if (level == 1)
+            cout << root->value << " ";
+        else if (level > 1)
+        {
+            printCurrentLevel(root->left, level-1);
+            printCurrentLevel(root->right, level-1);
+        }
     }
 
     int nodesCountHelper(Node<T> *root) {
@@ -109,8 +145,20 @@ class BST {
         }
     }
 
-    void print() {
-        printHelper(this->root); 
+    void printInorder() {
+        printInorderHelper(this->root); 
+    }
+    
+    void printPreorder() {
+        printPreorderHelper(this->root);
+    }
+    
+    void printPostorder() {
+        printPostorderHelper(this->root);
+    }
+    
+    void printLevelorder(){
+        printLevelorderHelper(this->root);
     }
 
     int nodesCount() {
@@ -132,15 +180,20 @@ class BST {
 
 int main() {
     BST<int> *bst = new BST<int>();
-    bst->add(11);
-    bst->add(1);
-    bst->add(6);
-    bst->add(-1);
-    bst->add(-10);
-    bst->add(100);
-    bst->print();
+    bst->add(10);
+    bst->add(15);
+    bst->add(8);
+    bst->add(5);
+    bst->add(12);
+    bst->add(33);
+    bst->add(7);
+    bst->printInorder();
     cout<<endl;
-    cout<<"Nodes count: "<<bst->nodesCount();
+    bst->printPreorder();
+    cout<<endl;
+    bst->printPostorder();
+    cout<<endl;
+    bst->printLevelorder();
     cout<<endl;
     return 0;
 }
